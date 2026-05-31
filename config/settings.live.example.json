@@ -1,0 +1,16 @@
+{
+  "dry_run": true,
+  "markets": "perp",
+  "poll_interval_ms": 1500,
+  "baseline_path": "state/baseline.json",
+  "audit_log_path": "logs/audit.jsonl",
+  "stop_file_path": "state/STOP",
+  "max_notional_usd": 10,
+  "max_total_exposure_usd": 10,
+  "max_daily_loss_usd": 5,
+  "min_order_notional_usd": 10,
+  "slippage_bps": 50,
+  "min_context_freshness_ms": 10000,
+  "asset_allowlist": [],
+  "asset_denylist": []
+}
