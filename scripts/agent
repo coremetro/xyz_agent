@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+PYTHON_BIN="${PYTHON:-$ROOT/.venv/bin/python}"
+if [ ! -x "$PYTHON_BIN" ]; then
+  PYTHON_BIN="${PYTHON:-python3}"
+fi
+export PYTHONPATH="src${PYTHONPATH:+:$PYTHONPATH}"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  scripts/agent analyze [listing_analysis args...]
+  scripts/agent monitor [monitor args...]
+  scripts/agent trade [main/trading args...]
+  scripts/agent test [unittest args...]
+EOF
+}
+
+if [ "$#" -lt 1 ]; then
+  usage
+  exit 2
+fi
+
+command="$1"
+shift
+
+case "$command" in
+  analyze)
+    exec "$PYTHON_BIN" -m listing_agent.cli analyze "$@"
+    ;;
+  monitor)
+    exec "$PYTHON_BIN" -m listing_agent.cli monitor "$@"
+    ;;
+  trade)
+    exec "$PYTHON_BIN" -m listing_agent.cli trade "$@"
+    ;;
+  test)
+    exec "$PYTHON_BIN" -m unittest discover -s tests "$@"
+    ;;
+  -h|--help|help)
+    usage
+    ;;
+  *)
+    echo "Unknown command: $command" >&2
+    usage >&2
+    exit 2
+    ;;
+esac

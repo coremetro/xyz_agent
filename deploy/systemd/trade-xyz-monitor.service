@@ -1,0 +1,23 @@
+[Unit]
+Description=Trade XYZ new asset monitor
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=tradexyz
+Group=tradexyz
+WorkingDirectory=/opt/trade_xyz_listing_agent
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/etc/trade-xyz-monitor.env
+ExecStart=/opt/trade_xyz_listing_agent/scripts/monitor-xyz --poll-interval ${POLL_INTERVAL_SECONDS} --with-ws
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/opt/trade_xyz_listing_agent/state /opt/trade_xyz_listing_agent/logs /opt/trade_xyz_listing_agent/reports
+
+[Install]
+WantedBy=multi-user.target

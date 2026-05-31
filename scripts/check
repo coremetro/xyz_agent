@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+PYTHON_BIN="${PYTHON_BIN:-.venv/bin/python}"
+if [ ! -x "$PYTHON_BIN" ]; then
+  PYTHON_BIN="${PYTHON:-python3}"
+fi
+PYTHONPATH="${PYTHONPATH:-src}" "$PYTHON_BIN" -m unittest discover -s tests
+PYTHONPATH="${PYTHONPATH:-src}" "$PYTHON_BIN" -m compileall -q src tests

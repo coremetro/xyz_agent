@@ -1,0 +1,18 @@
+[project]
+name = "trade-xyz-listing-agent"
+version = "0.1.0"
+description = "Dry-run first listing monitor for trade.xyz / Hyperliquid-connected markets."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+live = ["hyperliquid-python-sdk>=0.23.0"]
+monitor = ["websockets>=12.0"]
+
+[project.scripts]
+trade-xyz = "listing_agent.cli:main"
+listing-agent = "listing_agent.main:main"
+listing-monitor = "listing_agent.monitor.runner:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
